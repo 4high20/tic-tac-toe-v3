@@ -1,3 +1,4 @@
+!function(){
 //declare DOM elements
 const board = document.querySelector('#board');
 const start = document.querySelector('#start');
@@ -241,3 +242,4 @@ boxesList.addEventListener('click', (e) => {
     }
   }
 });
+}();

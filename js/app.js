@@ -17,7 +17,7 @@ const playersUl = document.querySelector('#board header ul');
 let vsComputer = false;
 
 //declare variable to check if game was won or tied
-let gameWon = false;
+let gameEnd = false;
 
 //declare players name variables
 let player1Name = '';
@@ -31,13 +31,15 @@ const player2Element = document.createElement('p');
 function resetGame(){
   for(let i = 0; i < boxes.length; i++){
     boxes[i].className = 'box';
-    gameWon = false;
+    gameEnd = false;
+    player2.classList.remove('active');
+    player1.classList.add('active');
   }
 }
 
 //this function check if all the boxes have been used and nobody won yet
 function checkTie(){
-  if(!gameWon && (boxes[0].classList.contains('box-filled-1') || boxes[0].classList.contains('box-filled-2')) &&
+  if(!gameEnd && (boxes[0].classList.contains('box-filled-1') || boxes[0].classList.contains('box-filled-2')) &&
       (boxes[1].classList.contains('box-filled-1') || boxes[1].classList.contains('box-filled-2')) &&
       (boxes[2].classList.contains('box-filled-1') || boxes[2].classList.contains('box-filled-2')) &&
       (boxes[3].classList.contains('box-filled-1') || boxes[3].classList.contains('box-filled-2')) &&
@@ -46,6 +48,7 @@ function checkTie(){
       (boxes[6].classList.contains('box-filled-1') || boxes[6].classList.contains('box-filled-2')) &&
       (boxes[7].classList.contains('box-filled-1') || boxes[7].classList.contains('box-filled-2')) &&
       (boxes[8].classList.contains('box-filled-1') || boxes[8].classList.contains('box-filled-2'))){
+        gameEnd = true;
         endGame('tie');
       }
 }
@@ -53,67 +56,67 @@ function checkTie(){
 //this function checks all the 8 possible combination of winning for both players
 function checkWon(){
   if(boxes[0].classList.contains('box-filled-1') && boxes[1].classList.contains('box-filled-1') && boxes[2].classList.contains('box-filled-1')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player1');
   }
   else if(boxes[0].classList.contains('box-filled-2') && boxes[1].classList.contains('box-filled-2') && boxes[2].classList.contains('box-filled-2')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player2');
   }
   else if(boxes[3].classList.contains('box-filled-1') && boxes[4].classList.contains('box-filled-1') && boxes[5].classList.contains('box-filled-1')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player1');
   }
   else if(boxes[3].classList.contains('box-filled-2') && boxes[4].classList.contains('box-filled-2') && boxes[5].classList.contains('box-filled-2')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player2');
   }
   else if(boxes[6].classList.contains('box-filled-1') && boxes[7].classList.contains('box-filled-1') && boxes[8].classList.contains('box-filled-1')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player1');
   }
   else if(boxes[6].classList.contains('box-filled-2') && boxes[7].classList.contains('box-filled-2') && boxes[8].classList.contains('box-filled-2')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player2');
   }
   else if(boxes[0].classList.contains('box-filled-1') && boxes[3].classList.contains('box-filled-1') && boxes[6].classList.contains('box-filled-1')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player1');
   }
   else if(boxes[0].classList.contains('box-filled-2') && boxes[3].classList.contains('box-filled-2') && boxes[6].classList.contains('box-filled-2')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player2');
   }
   else if(boxes[1].classList.contains('box-filled-1') && boxes[4].classList.contains('box-filled-1') && boxes[7].classList.contains('box-filled-1')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player1');
   }
   else if(boxes[1].classList.contains('box-filled-2') && boxes[4].classList.contains('box-filled-2') && boxes[7].classList.contains('box-filled-2')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player2');
   }
   else if(boxes[2].classList.contains('box-filled-1') && boxes[5].classList.contains('box-filled-1') && boxes[8].classList.contains('box-filled-1')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player1');
   }
   else if(boxes[2].classList.contains('box-filled-2') && boxes[5].classList.contains('box-filled-2') && boxes[8].classList.contains('box-filled-2')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player2');
   }
   else if(boxes[0].classList.contains('box-filled-1') && boxes[4].classList.contains('box-filled-1') && boxes[8].classList.contains('box-filled-1')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player1');
   }
   else if(boxes[0].classList.contains('box-filled-2') && boxes[4].classList.contains('box-filled-2') && boxes[8].classList.contains('box-filled-2')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player2');
   }
   else if(boxes[2].classList.contains('box-filled-1') && boxes[4].classList.contains('box-filled-1') && boxes[6].classList.contains('box-filled-1')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player1');
   }
   else if(boxes[2].classList.contains('box-filled-2') && boxes[4].classList.contains('box-filled-2') && boxes[6].classList.contains('box-filled-2')){
-    gameWon = true;
+    gameEnd = true;
     endGame('player2');
   }
 }
@@ -227,8 +230,8 @@ boxesList.addEventListener('click', (e) => {
     player2.classList.add('active');
     checkWon();
     checkTie();
-    //if the game is vs computer the computer makes his move
-    if(vsComputer){
+    //if the game is vs computer and is not the last possible move the computer makes his move
+    if(vsComputer && !gameEnd){
       computerAI();
     }
   }
